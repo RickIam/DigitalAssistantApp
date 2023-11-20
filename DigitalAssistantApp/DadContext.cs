@@ -15,19 +15,19 @@ public partial class DadContext : DbContext
     {
     }
 
-    public virtual DbSet<EducPlan> EducPlans { get; set; }
+    public virtual DbSet<EducPlan>? EducPlans { get; set; }
 
-    public virtual DbSet<Faculty> Faculties { get; set; }
+    public virtual DbSet<Faculty>? Faculties { get; set; }
 
-    public virtual DbSet<PersonalLoad> PersonalLoads { get; set; }
+    public virtual DbSet<PersonalLoad>? PersonalLoads { get; set; }
 
-    public virtual DbSet<Speciality> Specialities { get; set; }
+    public virtual DbSet<Speciality>? Specialities { get; set; }
 
-    public virtual DbSet<Stream> Streams { get; set; }
+    public virtual DbSet<Stream>? Streams { get; set; }
 
-    public virtual DbSet<Subject> Subjects { get; set; }
+    public virtual DbSet<Subject>? Subjects { get; set; }
 
-    public virtual DbSet<Teacher> Teachers { get; set; }
+    public virtual DbSet<Teacher>? Teachers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
