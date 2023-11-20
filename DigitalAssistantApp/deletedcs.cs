@@ -2,5 +2,6 @@
 {
     public class deletedcs
     {
+        int x;
     }
 }
