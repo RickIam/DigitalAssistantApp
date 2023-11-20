@@ -8,11 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<DadContext>(options =>
-            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))); //Подключение к БД
 var app = builder.Build();
 
 
-using (DadContext tc = new DadContext())
+using (DadContext tc = new DadContext()) //Проверка подключения к БД
 {
     if (tc.Database.CanConnect())
     {
