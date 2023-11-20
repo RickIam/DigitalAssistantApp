@@ -11,7 +11,7 @@ builder.Services.AddDbContext<DadContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))); //Подключение к БД
 var app = builder.Build();
 
-
+var z = 2;
 using (DadContext tc = new DadContext()) //Проверка подключения к БД
 {
     if (tc.Database.CanConnect())
