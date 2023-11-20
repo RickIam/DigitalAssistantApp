@@ -1,0 +1,49 @@
+﻿@page
+@model DigitalAssistantApp.Pages.Teachers.CreateModel
+
+@{
+    ViewData["Title"] = "Добавление";
+}
+
+<h1>Добавить запись</h1>
+
+<h4>Преподаватель</h4>
+<hr/>
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Teacher.Firstname" class="control-label"></label>
+                <input asp-for="Teacher.Firstname" class="form-control" />
+                <span asp-validation-for="Teacher.Firstname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Teacher.Lastname" class="control-label"></label>
+                <input asp-for="Teacher.Lastname" class="form-control" />
+                <span asp-validation-for="Teacher.Lastname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Teacher.PatronymicName" class="control-label"></label>
+                <input asp-for="Teacher.PatronymicName" class="form-control" />
+                <span asp-validation-for="Teacher.PatronymicName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Teacher.Department" class="control-label"></label>
+                <input asp-for="Teacher.Department" class="form-control" />
+                <span asp-validation-for="Teacher.Department" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Добавить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Вернуться к списку</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
