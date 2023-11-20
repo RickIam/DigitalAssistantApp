@@ -5,7 +5,7 @@ using DigitalAssistantApp;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<DadContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))); //Подключение к БД
