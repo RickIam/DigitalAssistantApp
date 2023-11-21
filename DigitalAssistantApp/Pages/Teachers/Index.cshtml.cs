@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using DigitalAssistantApp;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using DigitalAssistantApp.DataBaseModels;
 
 namespace DigitalAssistantApp.Pages.Teachers
 {
