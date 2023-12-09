@@ -16,19 +16,23 @@ public partial class DadContext : DbContext
     {
     }
 
-    public virtual DbSet<EducPlan>? EducPlans { get; set; }
+    public virtual DbSet<EducPlan> EducPlans { get; set; }
 
-    public virtual DbSet<Faculty>? Faculties { get; set; }
+    public virtual DbSet<Faculty> Faculties { get; set; }
 
-    public virtual DbSet<PersonalLoad>? PersonalLoads { get; set; }
+    public virtual DbSet<Nagruzka> Nagruzkas { get; set; }
 
-    public virtual DbSet<Speciality>? Specialities { get; set; }
+    public virtual DbSet<Nagruzka1> Nagruzka1s { get; set; }
 
-    public virtual DbSet<DataBaseModels.Stream>? Streams { get; set; }
+    public virtual DbSet<PersonalLoad> PersonalLoads { get; set; }
 
-    public virtual DbSet<Subject>? Subjects { get; set; }
+    public virtual DbSet<Speciality> Specialities { get; set; }
 
-    public virtual DbSet<Teacher>? Teachers { get; set; }
+    public virtual DbSet<Stream> Streams { get; set; }
+
+    public virtual DbSet<Subject> Subjects { get; set; }
+
+    public virtual DbSet<Teacher> Teachers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -97,6 +101,66 @@ public partial class DadContext : DbContext
                 .HasColumnName("faculty_name");
         });
 
+        modelBuilder.Entity<Nagruzka>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("nagruzka");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(255)
+                .HasColumnName("id");
+        });
+
+        modelBuilder.Entity<Nagruzka1>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("nagruzka1");
+
+            entity.Property(e => e.Dept)
+                .HasMaxLength(255)
+                .HasColumnName("DEPT");
+            entity.Property(e => e.Ha).HasColumnName("HA");
+            entity.Property(e => e.Hat).HasColumnName("HAT");
+            entity.Property(e => e.Hkr).HasColumnName("HKR");
+            entity.Property(e => e.Hpr).HasColumnName("HPR");
+            entity.Property(e => e.Zet).HasColumnName("zet");
+            entity.Property(e => e.Атт)
+                .HasMaxLength(255)
+                .HasColumnName("АТТ");
+            entity.Property(e => e.АудСрс).HasColumnName("АУД_СРС");
+            entity.Property(e => e.ВарРасч)
+                .HasMaxLength(255)
+                .HasColumnName("ВАР_РАСЧ");
+            entity.Property(e => e.Грп).HasColumnName("ГРП");
+            entity.Property(e => e.Код)
+                .HasMaxLength(255)
+                .HasColumnName("КОД");
+            entity.Property(e => e.КолВб).HasColumnName("КОЛ_ВБ");
+            entity.Property(e => e.КолИно).HasColumnName("КОЛ_ИНО");
+            entity.Property(e => e.КолСтуд).HasColumnName("КОЛ_СТУД");
+            entity.Property(e => e.Лек).HasColumnName("ЛЕК");
+            entity.Property(e => e.Лр).HasColumnName("ЛР");
+            entity.Property(e => e.Пз).HasColumnName("ПЗ");
+            entity.Property(e => e.Предмет)
+                .HasMaxLength(255)
+                .HasColumnName("ПРЕДМЕТ");
+            entity.Property(e => e.Сезон)
+                .HasMaxLength(255)
+                .HasColumnName("СЕЗОН");
+            entity.Property(e => e.Сем).HasColumnName("СЕМ");
+            entity.Property(e => e.СпТь)
+                .HasMaxLength(255)
+                .HasColumnName("СП_ТЬ");
+            entity.Property(e => e.ФОб)
+                .HasMaxLength(255)
+                .HasColumnName("Ф_ОБ");
+            entity.Property(e => e.Факул)
+                .HasMaxLength(255)
+                .HasColumnName("ФАКУЛ");
+        });
+
         modelBuilder.Entity<PersonalLoad>(entity =>
         {
             entity.HasKey(e => e.PersonalLoadId).HasName("personal_load_pkey");
@@ -106,6 +170,12 @@ public partial class DadContext : DbContext
             entity.Property(e => e.PersonalLoadId)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("personal_load_id");
+            entity.Property(e => e.Gropus)
+                .HasMaxLength(255)
+                .HasColumnName("gropus");
+            entity.Property(e => e.TeachersInfo)
+                .HasMaxLength(1023)
+                .HasColumnName("teachers_info");
 
             entity.HasOne(d => d.PersonalLoadNavigation).WithOne(p => p.PersonalLoad)
                 .HasForeignKey<PersonalLoad>(d => d.PersonalLoadId)
@@ -135,7 +205,7 @@ public partial class DadContext : DbContext
                 .HasConstraintName("speciality_faculty_id_fkey");
         });
 
-        modelBuilder.Entity<DataBaseModels.Stream>(entity =>
+        modelBuilder.Entity<Stream>(entity =>
         {
             entity.HasKey(e => e.StreamId).HasName("stream_pkey");
 
