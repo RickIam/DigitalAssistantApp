@@ -14,16 +14,40 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.SpecId)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.PersonalLoad[0].Gropus)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.Semester)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.Stream.Group)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.Stream.StudCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.Att)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.Zet)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.LectionsCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.PractiseCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.LabWorkCount)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.PersonalLoad[0].TeachersInfo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoad1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation)
             </th>
             <th></th>
         </tr>
@@ -32,16 +56,40 @@
 @foreach (var item in Model.PersonalLoad) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.Subject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.SpecId)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Gropus)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.Semester)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.Stream.Group)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.Stream.StudCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.Att)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.Zet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.LectionsCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.PractiseCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.LabWorkCount)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.TeachersInfo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PersonalLoad1.TeacherId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.EducPlanId)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.PersonalLoadId">Edit</a> |
