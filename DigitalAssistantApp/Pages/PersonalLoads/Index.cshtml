@@ -1,0 +1,54 @@
+﻿@page
+@model DigitalAssistantApp.Pages.PersonalLoads.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].Gropus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].TeachersInfo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoad1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.PersonalLoad) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gropus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeachersInfo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalLoad1.TeacherId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.EducPlanId)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.PersonalLoadId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.PersonalLoadId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.PersonalLoadId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
