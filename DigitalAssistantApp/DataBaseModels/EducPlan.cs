@@ -43,7 +43,6 @@ public partial class EducPlan
 
     public int StreamId { get; set; }
 
-    public virtual PersonalLoad? PersonalLoad { get; set; }
 
     public virtual Speciality? Spec { get; set; }
 

@@ -24,7 +24,13 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
         {
             if (_context.PersonalLoads != null)
             {
-                PersonalLoad = await _context.PersonalLoads.ToListAsync();
+                PersonalLoad = await _context.PersonalLoads
+                .Include(p => p.Teacher)
+                .Include(p => p.EducPlan)
+                    .ThenInclude(b => b.Subject)
+                .Include(c => c.EducPlan)
+                    .ThenInclude(d=>d.Stream)
+                .ToListAsync();
             }
         }
     }

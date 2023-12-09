@@ -188,10 +188,7 @@ public partial class DadContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("personal_load_educ_plan_id_fkey");
 
-            entity.HasOne(d => d.Teacher).WithMany(p => p.PersonalLoads)
-                .HasForeignKey(d => d.TeacherId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("personal_load_teacher_id_fkey");
+
         });
 
         modelBuilder.Entity<Speciality>(entity =>
