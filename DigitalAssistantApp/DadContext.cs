@@ -28,7 +28,7 @@ public partial class DadContext : DbContext
 
     public virtual DbSet<Speciality> Specialities { get; set; }
 
-    public virtual DbSet<Stream> Streams { get; set; }
+    public virtual DbSet<DataBaseModels.Stream> Streams { get; set; }
 
     public virtual DbSet<Subject> Subjects { get; set; }
 
@@ -205,7 +205,7 @@ public partial class DadContext : DbContext
                 .HasConstraintName("speciality_faculty_id_fkey");
         });
 
-        modelBuilder.Entity<Stream>(entity =>
+        modelBuilder.Entity<DataBaseModels.Stream>(entity =>
         {
             entity.HasKey(e => e.StreamId).HasName("stream_pkey");
 
