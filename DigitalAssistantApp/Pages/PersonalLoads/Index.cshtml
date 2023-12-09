@@ -14,37 +14,37 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.Subject)
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].EducPlan.Subject)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.SpecId)
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].EducPlan.SpecId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PersonalLoad[0].Gropus)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.Semester)
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].EducPlan.Semester)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.Stream.Group)
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].EducPlan.Stream.Group)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.Stream.StudCount)
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].EducPlan.Stream.StudCount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.Att)
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].EducPlan.Att)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.Zet)
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].EducPlan.Zet)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.LectionsCount)
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].EducPlan.LectionsCount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.PractiseCount)
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].EducPlan.PractiseCount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PersonalLoad[0].PersonalLoadNavigation.LabWorkCount)
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].EducPlan.LabWorkCount)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PersonalLoad[0].TeachersInfo)
@@ -56,37 +56,37 @@
 @foreach (var item in Model.PersonalLoad) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.Subject)
+                @Html.DisplayFor(modelItem => item.EducPlan.Subject)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.SpecId)
+                @Html.DisplayFor(modelItem => item.EducPlan.SpecId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Gropus)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.Semester)
+                @Html.DisplayFor(modelItem => item.EducPlan.Semester)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.Stream.Group)
+                @Html.DisplayFor(modelItem => item.EducPlan.Stream.Group)
             </td>
             <td>
-                    @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.Stream.StudCount)
+                @Html.DisplayFor(modelItem => item.EducPlan.Stream.StudCount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.Att)
+                @Html.DisplayFor(modelItem => item.EducPlan.Att)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.Zet)
+                @Html.DisplayFor(modelItem => item.EducPlan.Zet)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.LectionsCount)
+                @Html.DisplayFor(modelItem => item.EducPlan.LectionsCount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.PractiseCount)
+                @Html.DisplayFor(modelItem => item.EducPlan.PractiseCount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PersonalLoadNavigation.LabWorkCount)
+                @Html.DisplayFor(modelItem => item.EducPlan.LabWorkCount)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TeachersInfo)

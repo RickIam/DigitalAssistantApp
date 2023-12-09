@@ -176,16 +176,22 @@ public partial class DadContext : DbContext
             entity.Property(e => e.TeachersInfo)
                 .HasMaxLength(1023)
                 .HasColumnName("teachers_info");
+            
+            //Возможны БОЛЬШИЕ правки
 
-            entity.HasOne(d => d.PersonalLoadNavigation).WithOne(p => p.PersonalLoad)
-                .HasForeignKey<PersonalLoad>(d => d.PersonalLoadId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("educ_plan_id");
+            entity.Property(e => e.EducPlanId).HasColumnName("educ_plan_id");
 
-            entity.HasOne(d => d.PersonalLoad1).WithOne(p => p.PersonalLoad)
-                .HasForeignKey<PersonalLoad>(d => d.PersonalLoadId)
+            entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
+
+            entity.HasOne(d => d.EducPlan).WithMany(p => p.PersonalLoads)
+                .HasForeignKey(d => d.EducPlanId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("teacher_id");
+                .HasConstraintName("personal_load_educ_plan_id_fkey");
+
+            entity.HasOne(d => d.Teacher).WithMany(p => p.PersonalLoads)
+                .HasForeignKey(d => d.TeacherId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("personal_load_teacher_id_fkey");
         });
 
         modelBuilder.Entity<Speciality>(entity =>

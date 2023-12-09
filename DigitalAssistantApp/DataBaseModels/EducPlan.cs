@@ -50,4 +50,6 @@ public partial class EducPlan
     public virtual Stream Stream { get; set; } = null!;
 
     public virtual Subject Subject { get; set; } = null!;
+    //Возможны правки
+    public virtual ICollection<PersonalLoad> PersonalLoads { get; set; } = new List<PersonalLoad>();
 }

@@ -11,7 +11,13 @@ public partial class PersonalLoad
 
     public string? TeachersInfo { get; set; }
 
-    public virtual Teacher PersonalLoad1 { get; set; } = null!;
+    //Возможны правки
 
-    public virtual EducPlan PersonalLoadNavigation { get; set; } = null!;
+    public int EducPlanId { get; set; }
+
+    public int TeacherId { get; set; }
+
+    public virtual Teacher Teacher { get; set; } = null!;
+    
+    public virtual EducPlan EducPlan { get; set; } = null!;
 }

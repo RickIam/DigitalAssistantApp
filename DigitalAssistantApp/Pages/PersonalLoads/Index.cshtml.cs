@@ -24,9 +24,7 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
         {
             if (_context.PersonalLoads != null)
             {
-                PersonalLoad = await _context.PersonalLoads
-                .Include(p => p.PersonalLoad1)
-                .Include(p => p.PersonalLoadNavigation).ToListAsync();
+                PersonalLoad = await _context.PersonalLoads.ToListAsync();
             }
         }
     }
