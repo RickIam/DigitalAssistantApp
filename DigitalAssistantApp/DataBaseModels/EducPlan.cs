@@ -11,29 +11,29 @@ public partial class EducPlan
 
     public string Season { get; set; } = null!;
 
-    public decimal? LectionsCount { get; set; }
+    public float? LectionsCount { get; set; }
 
-    public decimal? PractiseCount { get; set; }
+    public float? PractiseCount { get; set; }
 
-    public decimal? LabWorkCount { get; set; }
+    public float? LabWorkCount { get; set; }
 
-    public decimal? AudSrs { get; set; }
+    public float? AudSrs { get; set; }
 
     public int? Zet { get; set; }
 
     public string? Att { get; set; }
 
-    public decimal? Ha { get; set; }
+    public float? Ha { get; set; }
 
-    public decimal? Hkr { get; set; }
+    public float? Hkr { get; set; }
 
-    public decimal? Hpr { get; set; }
+    public float? Hpr { get; set; }
 
-    public decimal? Hat { get; set; }
+    public float? Hat { get; set; }
 
-    public decimal? H { get; set; }
+    public float? H { get; set; }
 
-    public int? VarRasch { get; set; }
+    public string? VarRasch { get; set; }
 
     public int Semester { get; set; }
 

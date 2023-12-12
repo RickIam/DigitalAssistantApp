@@ -71,7 +71,7 @@ public partial class DadContext : DbContext
                 .HasColumnName("spec_id");
             entity.Property(e => e.StreamId).HasColumnName("stream_id");
             entity.Property(e => e.SubjectId).HasColumnName("subject_id");
-            entity.Property(e => e.VarRasch).HasColumnName("var_rasch");
+            entity.Property(e => e.VarRasch).HasMaxLength(255).HasColumnName("var_rasch");
             entity.Property(e => e.Zet).HasColumnName("zet");
 
             entity.HasOne(d => d.Spec).WithMany(p => p.EducPlans)
