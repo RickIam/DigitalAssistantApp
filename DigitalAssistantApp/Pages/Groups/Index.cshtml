@@ -1,0 +1,63 @@
+﻿@page
+@model DigitalAssistantApp.Pages.Groups.IndexModel
+
+@{
+    ViewData["Title"] = "Группы";
+}
+
+<h1>Группы</h1>
+
+<p>
+    <a class="btn btn-primary" asp-page="./Create">Добавить запись</a>
+</p>
+<form>
+<table>
+    <thead>
+        <tr>
+            <th>Поиск</th>
+            
+            <th></th>
+        </tr>
+        <tbody>
+            <tr>
+                <th><input type="text" class="form-control" asp-for="SearchString" /></th>
+                
+            <th>
+            </th>
+            <th><input type="submit" class="btn btn-primary" value="Применить" /></th>
+            </tr>
+        </tbody>
+</table>
+</form>
+<table class="table">
+    <thead>
+        <tr>    
+            <th>
+                @Html.DisplayNameFor(model => model.Group[0].GroupNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Group[0].SpecId)
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+    <tbody>
+@foreach (var item in Model.Group) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GroupNumber)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecId)
+            </td>
+              
+
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.GroupNumber">Изменить</a> |
+               
+                <a asp-page="./Delete" asp-route-id="@item.GroupNumber">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

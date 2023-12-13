@@ -16,6 +16,7 @@ public partial class Teacher
     public string? PatronymicName { get; set; }
     [Display(Name = "Кафедра")]
     public string? Department { get; set; }
+   
     //Возможны правки
     public virtual ICollection<PersonalLoad> PersonalLoads { get; set; } = new List<PersonalLoad>();
 }

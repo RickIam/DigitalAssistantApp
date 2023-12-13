@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using DigitalAssistantApp.DataBaseModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +35,7 @@ public partial class DadContext : DbContext
     public virtual DbSet<Subject> Subjects { get; set; }
 
     public virtual DbSet<Teacher> Teachers { get; set; }
+    public virtual DbSet<DataBaseModels.Group> Groups { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -99,6 +102,21 @@ public partial class DadContext : DbContext
             entity.Property(e => e.FacultyName)
                 .HasMaxLength(10)
                 .HasColumnName("faculty_name");
+        });
+        modelBuilder.Entity<DataBaseModels.Group>(entity =>
+        {
+            entity.HasKey(e => e.GroupNumber).HasName("group_pkey");
+
+            entity.ToTable("group");
+
+            entity.Property(e => e.GroupNumber).HasMaxLength(255).HasColumnName("group_number");
+            entity.Property(e => e.SpecId)
+                .HasMaxLength(255)
+                .HasColumnName("spec_id");
+            entity.HasOne(d => d.Speciality).WithMany(p => p.Groups)
+                .HasForeignKey(d => d.SpecId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("group_spec_id_fkey");
         });
 
         modelBuilder.Entity<Nagruzka>(entity =>
@@ -170,7 +188,7 @@ public partial class DadContext : DbContext
             entity.Property(e => e.PersonalLoadId)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("personal_load_id");
-            entity.Property(e => e.Gropus)
+            entity.Property(e => e.Groups)
                 .HasMaxLength(255)
                 .HasColumnName("gropus");
             entity.Property(e => e.TeachersInfo)

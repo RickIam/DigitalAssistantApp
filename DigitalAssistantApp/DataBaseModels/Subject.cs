@@ -10,4 +10,5 @@ public partial class Subject
     public string SubjectName { get; set; } = null!;
 
     public virtual ICollection<EducPlan> EducPlans { get; set; } = new List<EducPlan>();
+    
 }

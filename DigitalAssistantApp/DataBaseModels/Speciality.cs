@@ -10,6 +10,6 @@ public partial class Speciality
     public int FacultyId { get; set; }
 
     public virtual ICollection<EducPlan> EducPlans { get; set; } = new List<EducPlan>();
-
+    public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
     public virtual Faculty Faculty { get; set; } = null!;
 }

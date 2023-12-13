@@ -23,6 +23,7 @@ namespace DigitalAssistantApp.Pages.Teachers
 
         [BindProperty(SupportsGet = true)]
         public string? SearchString { get; set; }
+
         [BindProperty(SupportsGet = true)]
         public string? SelectedDepartment { get; set; }
         public SelectList? TeachersDepatrments { get; set; }

@@ -16,7 +16,7 @@ public partial class Stream
     public int? Group { get; set; }
 
     public int StreamId { get; set; }
-
+    
     public string? FOb { get; set; }
 
     public virtual ICollection<EducPlan> EducPlans { get; set; } = new List<EducPlan>();
