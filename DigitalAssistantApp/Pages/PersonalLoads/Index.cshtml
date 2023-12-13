@@ -49,6 +49,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.PersonalLoad[0].TeachersInfo)
             </th>
+            @foreach (var Load in Model.PersonalLoad.FirstOrDefault().Loads)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => Load.Teacher.FullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Load.HoursCount)
+                </th>
+            }
             <th></th>
         </tr>
     </thead>
@@ -91,6 +100,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TeachersInfo)
             </td>
+            @foreach (var load in item.Loads)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => load.Teacher.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => load.HoursCount)
+                </td>
+            }
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.PersonalLoadId">Изменить</a>
             </td>

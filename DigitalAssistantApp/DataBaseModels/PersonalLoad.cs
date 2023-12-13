@@ -15,9 +15,11 @@ public partial class PersonalLoad
 
     public int EducPlanId { get; set; }
 
-    public int? TeacherId { get; set; }
+    //public int? TeacherId { get; set; }
 
-    public Teacher Teacher { get; set; } = null!;
+    //public Teacher Teacher { get; set; } = null!;
     
-    public virtual EducPlan EducPlan { get; set; } = null!;
+    public virtual EducPlan? EducPlan { get; set; }
+
+    public virtual ICollection<Load> Loads { get; set; } = new List<Load>();
 }

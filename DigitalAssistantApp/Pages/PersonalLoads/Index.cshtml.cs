@@ -25,7 +25,8 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
             if (_context.PersonalLoads != null)
             {
                 PersonalLoad = await _context.PersonalLoads
-                .Include(t => t.Teacher)
+                .Include(t => t.Loads)
+                    .ThenInclude(f => f.Teacher)
                 .Include(p => p.EducPlan)
                     .ThenInclude(b => b.Subject)
                 .Include(c => c.EducPlan)
