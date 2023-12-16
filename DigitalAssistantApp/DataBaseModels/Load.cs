@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 
 
@@ -12,7 +13,7 @@ public partial class Load
     public int? TeacherId { get; set; }
 
     public int? PersonalLoadId { get; set; }
-
+    [Display(Name = "Часы")]
     public float? HoursCount { get; set; }
 
     public Teacher? Teacher { get; set; }

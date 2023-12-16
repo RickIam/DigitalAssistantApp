@@ -2,14 +2,12 @@
 @model DigitalAssistantApp.Pages.PersonalLoads.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Нагрузка";
 }
 
-<h1>Index</h1>
+<h1>Нагрузка</h1>
+<a asp-page-handler="ExportToExcel">Экспорт в Excel</a>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -20,7 +18,7 @@
                 @Html.DisplayNameFor(model => model.PersonalLoad[0].EducPlan.SpecId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PersonalLoad[0].Gropus)
+                @Html.DisplayNameFor(model => model.PersonalLoad[0].Groups)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PersonalLoad[0].EducPlan.Semester)
@@ -71,7 +69,7 @@
                 @Html.DisplayFor(modelItem => item.EducPlan.SpecId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Gropus)
+                @Html.DisplayFor(modelItem => item.Groups)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EducPlan.Semester)

@@ -25,7 +25,7 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
         public PersonalLoad PersonalLoad { get; set; } = default!;
         [BindProperty]
         public List<Load> Loads { get; set; }
-        public SelectList? TeachersNames { get; set; }
+        //public SelectList? TeachersNames { get; set; }
 
 
 
@@ -66,12 +66,6 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
             return Page();
         }
 
-        public IActionResult OnGetAddForm()
-        {
-            // Добавление новой формы для ввода данных
-            Loads.Add(new Load());
-            return Page();
-        }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -83,20 +77,26 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
             _context.Attach(PersonalLoad).State = EntityState.Modified;
             foreach (Load load in Loads)
             {
-                if (load.TeacherId != null && load.HoursCount != null)
+                load.PersonalLoadId = PersonalLoad.PersonalLoadId;
+                if (load.LoadId > 0)
                 {
-                    load.PersonalLoadId = PersonalLoad.PersonalLoadId;
-                    if (load.LoadId > 0)
+                    if (load.TeacherId == null)
+                    {
+                        _context.Remove(load);
+                    }
+                    else
                     {
                         _context.Attach(load).State = EntityState.Modified;
                     }
-                    else
+                }
+                else
+                {
+                    if (load.TeacherId != null && load.HoursCount != null)
                     {
                         _context.Loads.Add(load);
                     }
                 }
             }
-
             try
             {
                 await _context.SaveChangesAsync();
@@ -118,7 +118,7 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
 
         private bool PersonalLoadExists(int id)
         {
-          return (_context.PersonalLoads?.Any(e => e.PersonalLoadId == id)).GetValueOrDefault();
+            return (_context.PersonalLoads?.Any(e => e.PersonalLoadId == id)).GetValueOrDefault();
         }
     }
 }

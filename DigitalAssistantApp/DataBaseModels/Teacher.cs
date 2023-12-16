@@ -21,7 +21,7 @@ public partial class Teacher
 
 
     [NotMapped]
-    [Display(Name = "Полное имя")]
+    [Display(Name = "ФИО")]
     public string FullName
     {
         get

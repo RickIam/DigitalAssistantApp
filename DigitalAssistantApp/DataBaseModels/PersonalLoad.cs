@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DigitalAssistantApp.DataBaseModels;
 
 public partial class PersonalLoad
 {
     public int PersonalLoadId { get; set; }
-
-    public string? Gropus { get; set; }
-
+    [Display(Name = "№ Группы")]
+    public string? Groups { get; set; }
+    [Display(Name = "Информация о преподавателе")]
     public string? TeachersInfo { get; set; }
 
     //Возможны правки
@@ -18,7 +19,7 @@ public partial class PersonalLoad
     //public int? TeacherId { get; set; }
 
     //public Teacher Teacher { get; set; } = null!;
-    
+
     public virtual EducPlan? EducPlan { get; set; }
 
     public virtual ICollection<Load> Loads { get; set; } = new List<Load>();

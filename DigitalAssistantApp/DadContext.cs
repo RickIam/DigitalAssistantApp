@@ -171,9 +171,9 @@ public partial class DadContext : DbContext
             entity.Property(e => e.PersonalLoadId)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("personal_load_id");
-            entity.Property(e => e.Gropus)
+            entity.Property(e => e.Groups)
                 .HasMaxLength(255)
-                .HasColumnName("gropus");
+                .HasColumnName("groups");
             entity.Property(e => e.TeachersInfo)
                 .HasMaxLength(1023)
                 .HasColumnName("teachers_info");
