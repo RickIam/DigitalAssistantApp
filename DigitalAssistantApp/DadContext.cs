@@ -25,6 +25,7 @@ public partial class DadContext : DbContext
     public virtual DbSet<Nagruzka1> Nagruzka1s { get; set; }
 
     public virtual DbSet<PersonalLoad> PersonalLoads { get; set; }
+    public virtual DbSet<Load> Loads { get; set; }
 
     public virtual DbSet<Speciality> Specialities { get; set; }
 
@@ -170,9 +171,9 @@ public partial class DadContext : DbContext
             entity.Property(e => e.PersonalLoadId)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("personal_load_id");
-            entity.Property(e => e.Gropus)
+            entity.Property(e => e.Groups)
                 .HasMaxLength(255)
-                .HasColumnName("gropus");
+                .HasColumnName("groups");
             entity.Property(e => e.TeachersInfo)
                 .HasMaxLength(1023)
                 .HasColumnName("teachers_info");
@@ -181,7 +182,7 @@ public partial class DadContext : DbContext
 
             entity.Property(e => e.EducPlanId).HasColumnName("educ_plan_id");
 
-            entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
+            //entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
 
             entity.HasOne(d => d.EducPlan).WithMany(p => p.PersonalLoads)
                 .HasForeignKey(d => d.EducPlanId)
@@ -189,6 +190,28 @@ public partial class DadContext : DbContext
                 .HasConstraintName("personal_load_educ_plan_id_fkey");
 
 
+        });
+
+        modelBuilder.Entity<Load>(entity =>
+        {
+            entity.HasKey(e => e.LoadId).HasName("load_pkey");
+
+            entity.ToTable("load");
+            entity.Property(e => e.LoadId).HasColumnName("load_id");
+
+            entity.Property(e => e.HoursCount).HasColumnName("hours_count");
+
+            entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
+            entity.Property(e => e.PersonalLoadId).HasColumnName("personal_load_id");
+
+            entity.HasOne(d => d.Teacher).WithMany(p => p.Loads)
+                .HasForeignKey(d => d.TeacherId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("speciality_faculty_id_fkey");
+            entity.HasOne(d => d.PersonalLoad).WithMany(p => p.Loads)
+                .HasForeignKey(d => d.PersonalLoadId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("load_personal_load_id_fkey");
         });
 
         modelBuilder.Entity<Speciality>(entity =>
@@ -262,4 +285,6 @@ public partial class DadContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+    public DbSet<DigitalAssistantApp.DataBaseModels.Load>? Load { get; set; }
 }

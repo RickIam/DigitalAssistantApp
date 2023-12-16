@@ -1,0 +1,61 @@
+﻿@page
+@model DigitalAssistantApp.Pages.PersonalLoads.EditModel
+
+@{
+    ViewData["Title"] = "Изменить";
+}
+
+<h1>Изменить</h1>
+
+<h4>Персональная нагрузка</h4>
+<hr/>
+
+<form method="post">
+<div class="row">
+    <div class="col">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PersonalLoad.PersonalLoadId"/>
+            <input type="hidden" asp-for="PersonalLoad.EducPlanId"/>
+            <input type="hidden" asp-for="PersonalLoad.EducPlan" />
+            <div class="form-group">
+                <label asp-for="PersonalLoad.Groups" class="control-label"></label>
+                <input asp-for="PersonalLoad.Groups" class="form-control" />
+                <span asp-validation-for="PersonalLoad.Groups" class="text-danger"></span>
+            </div>
+            <!-- Возможно не нужно
+            <div class="form-group">
+                <label asp-for="PersonalLoad.TeachersInfo" class="control-label"></label>
+                <input asp-for="PersonalLoad.TeachersInfo" class="form-control" />
+                <span asp-validation-for="PersonalLoad.TeachersInfo" class="text-danger"></span>
+            </div>-->
+    </div>
+</div>
+<div class="row mt-3">
+
+        <!-- Отображение форм для ввода данных Load -->
+                @for (int i = 0; i < 3; i++)
+                {
+                    <div class="form-group col">
+                        <input type="hidden" asp-for="Loads[i].LoadId" />
+                        <label asp-for="Loads[i].Teacher">Преподаватель @(i+1)</label>
+                        <select asp-for="Loads[i].TeacherId" asp-items="@(ViewData["Teachers"] as SelectList)" class="form-select">
+                            <option value=""></option>
+                        </select>
+                        <label asp-for="Loads[i].HoursCount" class="control-label"></label>
+                        <input asp-for="Loads[i].HoursCount" class="form-control" />
+                    </div>
+                }
+</div>
+<div class="form-group mt-3">
+    <input type="submit" value="Сохранить" class="btn btn-primary" />
+</div>
+</form>
+
+<div>
+    <a asp-page="./Index">Вернуться к таблице</a>
+</div>
+
+@section Scripts {
+    @{/*await Html.RenderPartialAsync("_ValidationScriptsPartial")*/;}
+
+}

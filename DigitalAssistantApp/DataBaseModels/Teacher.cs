@@ -17,5 +17,23 @@ public partial class Teacher
     [Display(Name = "Кафедра")]
     public string? Department { get; set; }
     //Возможны правки
-    public virtual ICollection<PersonalLoad> PersonalLoads { get; set; } = new List<PersonalLoad>();
+    public virtual ICollection<Load> Loads { get; set; } = new List<Load>();
+
+
+    [NotMapped]
+    [Display(Name = "ФИО")]
+    public string FullName
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(PatronymicName))
+            {
+                return $"{Lastname} {Firstname}";
+            }
+            else
+            {
+                return $"{Lastname} {Firstname} {PatronymicName}";
+            }
+        }
+    }
 }

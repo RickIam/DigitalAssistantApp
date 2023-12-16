@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DigitalAssistantApp.DataBaseModels;
 
 public partial class Speciality
 {
+    [Display(Name = "Шифр специальности")]
     public string SpecId { get; set; } = null!;
 
     public int FacultyId { get; set; }
