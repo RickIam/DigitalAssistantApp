@@ -1,0 +1,18 @@
+﻿@page
+@model DigitalAssistantApp.Pages.ImportPage.IndexModel
+@{
+
+}
+<h>Импорт</h>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="file" asp-for="Upload" />
+    <input type="submit" />
+</form>
+
+<form method="post" >
+    <input type="button" onclick="OnPostTestAsync()" />
+    <input type="submit" />
+</form>
+
+

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,23 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Pages\Новая папка\**" />
-    <Content Remove="Pages\Новая папка\**" />
-    <EmbeddedResource Remove="Pages\Новая папка\**" />
-    <None Remove="Pages\Новая папка\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="wwwroot\ex-list" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="EPPlus" Version="7.0.3" />
-
-    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
-    <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
-    <PackageReference Include="jQuery" Version="3.7.1" />
-
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="7.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.13">
@@ -36,12 +20,14 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
     <PackageReference Include="Npgsql" Version="7.0.6" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Новая папка\" />
   </ItemGroup>
 
 </Project>
