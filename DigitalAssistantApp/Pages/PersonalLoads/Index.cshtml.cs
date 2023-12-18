@@ -39,6 +39,7 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
                 .Include(c => c.EducPlan)
                     .ThenInclude(d => d.Stream)
                 .OrderBy(p => p.EducPlan.Semester)
+                .ThenBy(b => b.EducPlan.Subject.SubjectName)
                 .ToList();
             }
             return PersonalLoad;
@@ -52,8 +53,7 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
         public IActionResult OnGetExportToExcel()
         {
             GetPersonalLoad();
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            using (var package = new ExcelPackage("./wwwroot/Obraz.xlsx"))
+            using (var package = new ExcelPackage("./wwwroot/Files/Obraz.xlsx"))
             {
                 var worksheet = package.Workbook.Worksheets.First();
                 worksheet.Cells.Style.Font.Name = "Times New Roman";
@@ -86,54 +86,59 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
 
                     string pattern = @"(\d+)\sгр\.\sна\s(лаб\.|пр\.)";
 
-                    // Применяем регулярное выражение к тексту
-                    MatchCollection matches = Regex.Matches(PersonalLoad[i]?.EducPlan?.Dept, pattern);
-
-                    // Обрабатываем найденные совпадения
-                    foreach (Match match in matches)
+                    if(PersonalLoad[i]?.EducPlan?.Dept!=null)
                     {
-                        if (match.Success)
+                        // Применяем регулярное выражение к тексту
+                        MatchCollection matches = Regex.Matches(PersonalLoad[i]?.EducPlan?.Dept, pattern);
+
+                        // Обрабатываем найденные совпадения
+                        foreach (Match match in matches)
                         {
-                            // Получаем значение числа из группы с индексом 1
-                            string groupCount = match.Groups[1].Value;
+                            if (match.Success)
+                            {
+                                // Получаем значение числа из группы с индексом 1
+                                string groupCount = match.Groups[1].Value;
 
-                            // Преобразуем строку в число (int)
-                            int numberOfGroups = int.Parse(groupCount);
+                                // Преобразуем строку в число (int)
+                                int numberOfGroups = int.Parse(groupCount);
 
-                            // Получаем вид занятий из группы с индексом 2
-                            string lessonType = match.Groups[2].Value;
-                            if(lessonType=="лаб.")
-                            {
-                                worksheet.Cells[i + 7, 10].Value = numberOfGroups;
-                            }
-                            else
-                            {
-                                if(PersonalLoad[i]?.EducPlan?.PractiseCount==0)
+                                // Получаем вид занятий из группы с индексом 2
+                                string lessonType = match.Groups[2].Value;
+                                if (lessonType == "лаб.")
                                 {
-                                    worksheet.Cells[i+7,10].Value = 0;
+                                    worksheet.Cells[i + 7, 10].Value = numberOfGroups;
                                 }
-                            }
-                            if(lessonType=="пр.")
-                            {
-                                worksheet.Cells[i + 7, 9].Value = numberOfGroups;
-                            }
-                            else
-                            {
-                                if (PersonalLoad[i]?.EducPlan?.PractiseCount == 0)
+                                else
                                 {
-                                    worksheet.Cells[i + 7, 9].Value = 0;
+                                    if (PersonalLoad[i]?.EducPlan?.PractiseCount == 0)
+                                    {
+                                        worksheet.Cells[i + 7, 10].Value = 0;
+                                    }
                                 }
+                                if (lessonType == "пр.")
+                                {
+                                    worksheet.Cells[i + 7, 9].Value = numberOfGroups;
+                                }
+                                else
+                                {
+                                    if (PersonalLoad[i]?.EducPlan?.PractiseCount == 0)
+                                    {
+                                        worksheet.Cells[i + 7, 9].Value = 0;
+                                    }
+                                }
+                                Console.WriteLine($"{lessonType} : {numberOfGroups}");
                             }
-                            Console.WriteLine($"{lessonType} : {numberOfGroups}");
                         }
                     }
-                    if (PersonalLoad[i]?.EducPlan?.PractiseCount == 0)
-                    {
-                        worksheet.Cells[i + 7, 10].Value = 0;
-                    }
+
+
                     if (PersonalLoad[i]?.EducPlan?.PractiseCount == 0)
                     {
                         worksheet.Cells[i + 7, 9].Value = 0;
+                    }
+                    if (PersonalLoad[i]?.EducPlan?.LabWorkCount == 0)
+                    {
+                        worksheet.Cells[i + 7, 10].Value = 0;
                     }
 
 

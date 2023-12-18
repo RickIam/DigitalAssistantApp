@@ -47,14 +47,17 @@
             <th>
                 @Html.DisplayNameFor(model => model.PersonalLoad[0].TeachersInfo)
             </th>
-            @foreach (var Load in Model.PersonalLoad.FirstOrDefault().Loads)
+            @if(Model.PersonalLoad.FirstOrDefault()!=null)
             {
-                <th>
-                    @Html.DisplayNameFor(model => Load.Teacher.FullName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => Load.HoursCount)
-                </th>
+                foreach (var Load in Model.PersonalLoad.FirstOrDefault().Loads)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => Load.Teacher.FullName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => Load.HoursCount)
+                    </th>
+                }
             }
             <th></th>
         </tr>
