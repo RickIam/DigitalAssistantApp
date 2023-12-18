@@ -1,13 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using OfficeOpenXml;
-using ExcelDataReader;
-using System.Data;
-using System;
-using System.Text;
-using System.Reflection;
 using Npgsql;
-using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace DigitalAssistantApp.Pages.ImportPage
 {
@@ -15,33 +10,33 @@ namespace DigitalAssistantApp.Pages.ImportPage
     {
         [BindProperty]
         public IFormFile Upload { get; set; }
+        
+        private readonly DigitalAssistantApp.DadContext _context;
 
+        public IndexModel(DigitalAssistantApp.DadContext context)
+        {
+            _context = context;
+        }
         public async Task OnPostAsync()
         {
-            var file = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Upload.FileName);
+            var file = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files", Upload.FileName);
             using (var fileStream = new FileStream(file, FileMode.Create))
             {
                 await Upload.CopyToAsync(fileStream);
             }
             var fileInfo = new FileInfo(file);
-            string importfilepath = "./wwwroot/import.csv";
-            ExcelPrepare(fileInfo);
-            XlsxToCsvConverter(fileInfo, importfilepath);
+            string importfilepath = "./wwwroot/Files/" + Upload.FileName;
+            int LastRowNumber = ExcelPrepare(fileInfo);
             var importfileinfo = new FileInfo(importfilepath);
-            ImportFileToDatabase(importfileinfo);
-            //fileInfo.Delete();
+            PreparedFileImport(importfileinfo, LastRowNumber);
+            ValuesToTables();
+            fileInfo.Delete();
         }
-        public async Task OnPostTestAsync()
+        private void ValuesToTables()
         {
-            using (var connection = new NpgsqlConnection("Server=172.20.7.9;Port=5432;Database=dad_test;User Id=superuser;Password=rootUSER"))
+            using (var connection = new NpgsqlConnection("Server=172.20.7.9;Port=5432;Database=DAD;User Id=superuser;Password=rootUSER"))
             {
                 connection.Open();
-                /*using (var command = new NpgsqlCommand())
-                {
-                    //command.Connection = connection;
-                    //command.CommandText = @"copy nagruzka1 FROM 'C:\\Users\\Twelfth\\Source\\Repos\\RickIam\\DigitalAssistantApp\\DigitalAssistantApp\\wwwroot\\import.csv' (format CSV, HEADER, delimiter ';',null 'NULL', encoding 'UTF8')";
-                    //command.ExecuteNonQuery(); 
-                }*/
                 //Распределение данных по таблицам
                 using (var command = new NpgsqlCommand())
                 {
@@ -88,16 +83,22 @@ namespace DigitalAssistantApp.Pages.ImportPage
                         FROM educ_plan_in";
                     command.ExecuteNonQuery();
                 }
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = @"truncate nagruzka1 restart identity;";
+                    command.ExecuteNonQuery();
+                }
+                connection.Close(); //ЗАКРЫТИЕ СОЕДИНЕНИЯ
             }
         }
-        private void ExcelPrepare(FileInfo fileInfo)
+        private int ExcelPrepare(FileInfo fileInfo)
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;         //noncommercial-для нелицензированного продукта
+            int endrow = -1;
             using (ExcelPackage package = new ExcelPackage(fileInfo.FullName))
             {
                 var worksheet = package.Workbook.Worksheets[0];
                 worksheet.DeleteRow(1);
-                int endrow = -1;
                 for (int row = 1; row <= worksheet.Dimension.End.Row; row++)
                 {
                     if (worksheet.Cells[row, 1].Value == null)
@@ -112,102 +113,53 @@ namespace DigitalAssistantApp.Pages.ImportPage
                         }
                     }
                 }
-                for (int row = 2; row < endrow; row++)
-                {
-                    for (int col = 7; col <= 23; col++)
-                    {
-                        if (worksheet.Cells[row, col].Value != null)
-                        {
-                            worksheet.Cells[row, col].Value = worksheet.Cells[row, col].Value.ToString().Replace(",", ".");
-                        }
-                        else
-                        {
-                            worksheet.Cells[row, col].Value = 0;
-                        }
-                    }
-                }
                 package.Save();
             }
+            return endrow;
         }
-        private void XlsxToCsvConverter(FileInfo fileInfo, string importfilepath)
+        public void PreparedFileImport(FileInfo file,int LastRowNumber)
         {
-            FileStream stream = System.IO.File.Open(fileInfo.FullName, FileMode.Open, FileAccess.Read);
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
-            DataSet result = excelReader.AsDataSet();
-            DataTable dataTable = result.Tables[0];
-            StreamWriter csvWriter = new StreamWriter(importfilepath);
-            foreach (DataRow row in dataTable.Rows)
+            if (file != null && file.Length > 0)
             {
-                for (int i = 0; i < dataTable.Columns.Count; i++)
+                using (var stream = new FileStream(file.FullName, FileMode.Open, FileAccess.Read))
                 {
-                    if (i != dataTable.Columns.Count - 1)
+                    using (var package = new ExcelPackage(stream))
                     {
-                        csvWriter.Write(row[i].ToString() + ";");
-                    }
-                    else
-                    {
-                        csvWriter.Write(row[i].ToString());
+                        var worksheet = package.Workbook.Worksheets[0];
+                        for (int row = 2; row < LastRowNumber; row++)
+                        {
+                            Nagruzka1 data = new Nagruzka1();
+                            data.Сезон = worksheet.Cells[row, 1].Value?.ToString();
+                            data.ФОб = worksheet.Cells[row, 2].Value?.ToString();
+                            data.Код = worksheet.Cells[row, 3].Value?.ToString();
+                            data.Предмет = worksheet.Cells[row, 4].Value?.ToString();
+                            data.Факул = worksheet.Cells[row, 5].Value?.ToString();
+                            data.СпТь = worksheet.Cells[row, 6].Value?.ToString();
+                            data.Сем = Convert.ToInt32(worksheet.Cells[row, 7].Value); 
+                            data.Грп = Convert.ToInt32(worksheet.Cells[row, 8].Value);
+                            data.КолСтуд = Convert.ToInt32(worksheet.Cells[row, 9].Value);
+                            data.КолВб = Convert.ToInt32(worksheet.Cells[row, 10].Value);
+                            data.КолИно = Convert.ToInt32(worksheet.Cells[row, 11].Value);
+                            data.ВарРасч = worksheet.Cells[row, 12].Value?.ToString();
+                            data.Атт = worksheet.Cells[row, 13].Value?.ToString();
+                            data.Zet = (float?)Convert.ToDouble(worksheet.Cells[row, 14].Value);
+                            data.Лек = (float?)Convert.ToDouble(worksheet.Cells[row, 15].Value);
+                            data.Пз = (float?)Convert.ToDouble(worksheet.Cells[row, 16].Value);
+                            data.Лр = (float?)Convert.ToDouble(worksheet.Cells[row, 17].Value);
+                            data.АудСрс = (float?)Convert.ToDouble(worksheet.Cells[row, 18].Value);
+                            data.Ha = (float?)Convert.ToDouble(worksheet.Cells[row, 19].Value);
+                            data.Hkr = (float?)Convert.ToDouble(worksheet.Cells[row, 20].Value);
+                            data.Hpr = (float?)Convert.ToDouble(worksheet.Cells[row, 21].Value);
+                            data.Hat = (float?)Convert.ToDouble(worksheet.Cells[row, 22].Value);
+                            data.H = (float?)Convert.ToDouble(worksheet.Cells[row, 23].Value);
+                            data.Dept = worksheet.Cells[row, 24].Value?.ToString();
+                            _context.Nagruzka1s.Add(data);
+                        }
+                        _context.SaveChanges();
                     }
                 }
-                csvWriter.WriteLine();
             }
-            csvWriter.Flush();
-            csvWriter.Close();
-            excelReader.Close();
         }
-        private void ImportFileToDatabase(FileInfo importfilepath)
-        {
-            /*try
-            {
-                string psqlPath = "C:\\Program Files\\PostgreSQL\\16\\scripts\\runpsql.bat";
-                string arguments = $"-h 172.20.7.9 -p 5432 -U superuser -W rootUSER -d dad_test -c \"COPY nagruzka1 FROM '{importfilepath.FullName}' WITH CSV HEADER DELIMITER ';' NULL 'NULL' ENCODING 'UTF8';\"";
-                var process = new Process
-                {
-                    StartInfo = new ProcessStartInfo
-                    {
-                        FileName = psqlPath,
-                        Arguments = arguments,
-                        RedirectStandardOutput = true,
-                        UseShellExecute = false,
-                        CreateNoWindow = true
-                    }
-                };
-                //process.Start();
-                //process.Close();
-                //process.Dispose();
-                //string connectionString = "Server=172.20.7.9;Port=5432;Database=dad_test;User Id=superuser;Password=rootUSER";
-                //string copyCommand = $"\\copy nagruzka1 FROM '{importfilepath.FullName}' (format CSV, HEADER, delimiter ';', null 'NULL', encoding 'UTF8')";
-                // Запуск утилиты psql с командой \copy
-                /*ProcessStartInfo processInfo = new ProcessStartInfo
-                {
-                    FileName = "C:\\Program Files\\PostgreSQL\\16\\scripts\\runpsql.bat",
-                    Arguments = $"-h 172.20.7.9 -p 5432 -d dad_test -U superuser -P rootUSER -c + \"{copyCommand}\"",
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = false
-                };
-                using (Process process = new Process { StartInfo = processInfo })
-                {
-                    //process.Start();
-                    //string output = process.StandardOutput.ReadToEnd();
-                    //string error = process.StandardError.ReadToEnd();
-                    //process.WaitForExit();
-                    //Console.WriteLine("Output: " + output);
-                    //Console.WriteLine("Error: " + error);
 
-                    //Console.WriteLine("Операция copy выполнена успешно.");
-                }*/
-            /*}
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Произошла ошибка: {ex.Message}");
-            }*/
-
-
-
-        }
- 
     }
 }

@@ -115,13 +115,14 @@ public partial class DadContext : DbContext
 
         modelBuilder.Entity<Nagruzka1>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("nagruzka1");
+            entity.HasKey(e => e.Id).HasName("nagruzka1pkey");
+
+            entity.ToTable("nagruzka1");
 
             entity.Property(e => e.Dept)
                 .HasMaxLength(255)
                 .HasColumnName("DEPT");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Ha).HasColumnName("HA");
             entity.Property(e => e.Hat).HasColumnName("HAT");
             entity.Property(e => e.Hkr).HasColumnName("HKR");
