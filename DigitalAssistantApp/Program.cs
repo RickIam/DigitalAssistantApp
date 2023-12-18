@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using DigitalAssistantApp;
-
+using OfficeOpenXml;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +22,7 @@ using (DadContext tc = new DadContext()) //Проверка подключения к БД
         app.Logger.LogInformation("Не удалось подключиться к БД");
     }
 }
+ExcelPackage.LicenseContext = LicenseContext.NonCommercial;       //noncommercial-для нелицензированного продукта
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

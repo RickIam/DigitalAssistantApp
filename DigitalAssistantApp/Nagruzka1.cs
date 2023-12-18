@@ -31,25 +31,27 @@ public partial class Nagruzka1
 
     public string? Атт { get; set; }
 
-    public decimal? Zet { get; set; }
+    public float? Zet { get; set; }
 
-    public decimal? Лек { get; set; }
+    public float? Лек { get; set; }
 
-    public decimal? Пз { get; set; }
+    public float? Пз { get; set; }
 
-    public decimal? Лр { get; set; }
+    public float? Лр { get; set; }
 
-    public decimal? АудСрс { get; set; }
+    public float? АудСрс { get; set; }
 
-    public decimal? Ha { get; set; }
+    public float? Ha { get; set; }
 
-    public decimal? Hkr { get; set; }
+    public float? Hkr { get; set; }
 
-    public decimal? Hpr { get; set; }
+    public float? Hpr { get; set; }
 
-    public decimal? Hat { get; set; }
+    public float? Hat { get; set; }
 
-    public decimal? H { get; set; }
+    public float? H { get; set; }
 
     public string? Dept { get; set; }
+
+    public int Id { get; set; }
 }
