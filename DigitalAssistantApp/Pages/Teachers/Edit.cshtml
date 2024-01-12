@@ -31,7 +31,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="Teacher.Department" class="control-label"></label>
-                <input asp-for="Teacher.Department" class="form-control" />
+                <select class="form-control" asp-for="Teacher.Department" asp-items="Model.TeachersDepatrments">
+                    <option value="">-</option>
+                </select>
                 <span asp-validation-for="Teacher.Department" class="text-danger"></span>
             </div>
             <div class="form-group">

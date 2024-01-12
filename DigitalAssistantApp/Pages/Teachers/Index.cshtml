@@ -23,6 +23,7 @@
             <th><input type="text" class="form-control" asp-for="SearchString"/></th>
             <th><select class="form-control" asp-for="SelectedDepartment" asp-items="Model.TeachersDepatrments">
                 <option value="">Все</option>
+                <option value="null">-</option>
             </select>
             </th>
             <th><input type="submit" class="btn btn-primary" value="Применить" /></th>
@@ -35,10 +36,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Teacher[0].Firstname)
+                @Html.DisplayNameFor(model => model.Teacher[0].Lastname)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Teacher[0].Lastname)
+                @Html.DisplayNameFor(model => model.Teacher[0].Firstname)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Teacher[0].PatronymicName)
@@ -53,10 +54,10 @@
 @foreach (var item in Model.Teacher) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Firstname)
+                @Html.DisplayFor(modelItem => item.Lastname)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Lastname)
+                @Html.DisplayFor(modelItem => item.Firstname)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PatronymicName)

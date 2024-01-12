@@ -29,18 +29,21 @@ namespace DigitalAssistantApp.Pages.Teachers
 
         public async Task OnGetAsync()
         {
-            IQueryable<string> DeptQuery = (from m in _context.Teachers
-                                            orderby m.Department
-                                            select m.Department).Distinct();
+            IQueryable<string> DeptQuery = (from m in _context.Faculties
+                                            orderby m.FacultyName
+                                            select m.FacultyName).Distinct();
 
             var teachers = from m in _context.Teachers
-                         select m;
+                           select m;
             if (!string.IsNullOrEmpty(SearchString))
             {
-                teachers = teachers.Where(a => (a.Firstname + " " + a.Lastname +" "+ a.PatronymicName).Contains(SearchString));
+                teachers = teachers.Where(a => (a.Lastname + " " + a.Firstname + " " + a.PatronymicName).Contains(SearchString));
             }
-
-            if (!string.IsNullOrEmpty(SelectedDepartment))
+            if (SelectedDepartment == "null")
+            {
+                teachers = teachers.Where(b => b.Department == null);
+            }
+            else if (!string.IsNullOrEmpty(SelectedDepartment))
             {
                 teachers = teachers.Where(b => b.Department == SelectedDepartment);
             }
