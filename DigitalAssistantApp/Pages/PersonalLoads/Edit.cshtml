@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int}"
 @model DigitalAssistantApp.Pages.PersonalLoads.EditModel
 
 @{
@@ -30,21 +30,29 @@
             </div>-->
     </div>
 </div>
-<div class="row mt-3">
+<div class="row mt-3" id="loadsContainer">
 
         <!-- Отображение форм для ввода данных Load -->
-                @for (int i = 0; i < 3; i++)
-                {
-                    <div class="form-group col">
-                        <input type="hidden" asp-for="Loads[i].LoadId" />
-                        <label asp-for="Loads[i].Teacher">Преподаватель @(i+1)</label>
-                        <select asp-for="Loads[i].TeacherId" asp-items="@(ViewData["Teachers"] as SelectList)" class="form-select">
-                            <option value=""></option>
-                        </select>
-                        <label asp-for="Loads[i].HoursCount" class="control-label"></label>
-                        <input asp-for="Loads[i].HoursCount" class="form-control" />
-                    </div>
-                }
+        @for (int i = 0; i < Model.Loads.Count; i++)
+        {
+            <div class="col-sm-4">
+            <div class="form-group" data-load-index="i">
+                <input type="hidden" asp-for="Loads[i].LoadId" />
+                <label asp-for="Loads[i].Teacher">Преподаватель</label>
+                <select asp-for="Loads[i].TeacherId" asp-items="@(ViewData["Teachers"] as SelectList)" class="form-select">
+                    <option value=""></option>
+                </select>
+                <span asp-validation-for="Loads[i].TeacherId" class="text-danger"></span>
+            </div>
+            <div class="form-group" data-load-index="i">
+                <label asp-for="Loads[i].HoursCount" class="control-label"></label>
+                <input asp-for="Loads[i].HoursCount" class="form-control"/>
+                <span asp-validation-for="Loads[i].HoursCount" class="text-danger"></span>
+            </div>
+            </div>
+        }
+
+
 </div>
 <div class="form-group mt-3">
     <input type="submit" value="Сохранить" class="btn btn-primary" />
@@ -52,10 +60,39 @@
 </form>
 
 <div>
+    <button type="button" id="addLoadButton">Добавить новое поле</button>
     <a asp-page="./Index">Вернуться к таблице</a>
 </div>
 
 @section Scripts {
-    @{/*await Html.RenderPartialAsync("_ValidationScriptsPartial")*/;}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            var loadsContainer = $("#loadsContainer");
+            var loadIndex = @Model.Loads.Count; // Индекс для новых полей
+
+            $("#addLoadButton").on("click", function () {
+                // Клонируем первый элемент в списке Loads и изменяем его атрибуты
+                var newLoad = loadsContainer.find("div:first").clone();
+                newLoad.find("input, select").each(function () {
+                    var name = $(this).attr("name").replace("[0]", "[" + loadIndex + "]");
+                    var id = $(this).attr("id").replace("_0_", "_" + loadIndex + "_");
+                    $(this).attr("name", name);
+                    $(this).attr("id", id);
+                    $(this).val(""); // Очищаем значения полей
+                });
+                newLoad.find("input[type=hidden]").val(0);
+
+                // Добавляем новый элемент в контейнер и устанавливаем новый индекс
+                newLoad.attr("data-load-index", loadIndex);
+                loadsContainer.append(newLoad);
+
+                // Увеличиваем индекс для следующего добавления
+                loadIndex++;
+            });
+        });
+    </script>
 
 }

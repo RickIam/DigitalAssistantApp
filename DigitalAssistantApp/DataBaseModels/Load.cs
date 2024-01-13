@@ -9,7 +9,7 @@ namespace DigitalAssistantApp.DataBaseModels;
 public partial class Load
 {
     public int LoadId { get; set; }
-
+    [Required(ErrorMessage ="Выберите преподавателя")]
     public int? TeacherId { get; set; }
 
     public int? PersonalLoadId { get; set; }

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using DigitalAssistantApp;
 using DigitalAssistantApp.DataBaseModels;
 using NuGet.Packaging.Signing;
+using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
 
 namespace DigitalAssistantApp.Pages.PersonalLoads
 {
@@ -27,15 +28,20 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
         public List<Load> Loads { get; set; }
         //public SelectList? TeachersNames { get; set; }
 
-
-
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.PersonalLoads == null)
             {
                 return NotFound();
             }
-            var personalload =  await _context.PersonalLoads.FirstOrDefaultAsync(m => m.PersonalLoadId == id);
+
+            var personalload = await _context.PersonalLoads
+                .Include(t => t.Loads)
+                .Include(p => p.EducPlan)
+                .ThenInclude(b => b.Subject)
+                .Include(c => c.EducPlan)
+                .ThenInclude(d => d.Stream)
+                .FirstOrDefaultAsync(m => m.PersonalLoadId == id);
             if (personalload == null)
             {
                 return NotFound();
@@ -44,8 +50,8 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
             List<Teacher> teachers = _context.Teachers.ToList();
             ViewData["Teachers"] = new SelectList(teachers, "TeacherId", "FullName");
 
-            var loads = await _context.Loads.Where(l => l.PersonalLoadId == personalload.PersonalLoadId).ToListAsync();
-            if (loads.Count==0)
+            var loads = personalload.Loads;
+            /*if (loads.Count==0)
             {
                 Loads = new List<Load>
                 {
@@ -61,17 +67,22 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
                 {
                     Loads.Add(new Load());
                 }
+            }*/
+            Loads = loads.ToList();
+            if(Loads.Count==0)
+            {
+                Loads.Add(new Load());
             }
             PersonalLoad = personalload;
             return Page();
         }
 
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (!ModelState.IsValid)
             {
-                return Page();
+                return RedirectToPage(new { id });
             }
 
             _context.Attach(PersonalLoad).State = EntityState.Modified;
