@@ -54,7 +54,6 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
                 Loads.Add(new Load());
             }
             PersonalLoad = personalload;
-            PersonalLoad.EducPlan = personalload.EducPlan;
             MaxHour = (float)PersonalLoad.EducPlan.H;
             List<Teacher> teachers = _context.Teachers.ToList();
             ViewData["Teachers"] = new SelectList(teachers, "TeacherId", "FullName");

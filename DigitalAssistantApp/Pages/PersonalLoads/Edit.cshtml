@@ -9,19 +9,57 @@
 
 <h4>Персональная нагрузка</h4>
 <hr/>
-
+<dt class="col-sm-2">
+    @Html.DisplayNameFor(model => model.PersonalLoad.EducPlan.Subject.SubjectName)
+</dt>
+<dd class="col-sm-10">
+    @Html.DisplayFor(model => model.PersonalLoad.EducPlan.Subject.SubjectName)
+</dd>
+<dt class="col-sm-2">
+    @Html.DisplayNameFor(model => model.PersonalLoad.EducPlan.SpecId)
+</dt>
+<dd class="col-sm-10">
+    @Html.DisplayFor(model => model.PersonalLoad.EducPlan.SpecId)
+</dd>
+<dt class="col-sm-2">
+    @Html.DisplayNameFor(model => model.PersonalLoad.EducPlan.Semester)
+</dt>
+<dd class="col-sm-10">
+    @Html.DisplayFor(model => model.PersonalLoad.EducPlan.Semester)
+</dd>
+<dt class="col-sm-10">
+    Количество студентов и групп
+</dt>
+<dd class="col-sm-10">
+    Студентов: @Html.DisplayFor(model => model.PersonalLoad.EducPlan.Stream.StudCount); Групп: @Html.DisplayFor(model => model.PersonalLoad.EducPlan.Stream.Group)
+</dd>
+<dt class="col-sm-10">
+    Тип аттестации и кол-во зачётных ед.
+</dt>
+<dd class="col-sm-10">
+    @Html.DisplayFor(model => model.PersonalLoad.EducPlan.Att) @Html.DisplayFor(model => model.PersonalLoad.EducPlan.Zet)
+</dd>
+<dt class="col-sm-10">
+    Лекций/Практических/Лабораторных
+</dt>
+<dd class="col-sm-10">
+    Лекций: @Html.DisplayFor(model => model.PersonalLoad.EducPlan.LectionsCount)/ ПР: @Html.DisplayFor(model => model.PersonalLoad.EducPlan.PractiseCount)/ ЛР: @Html.DisplayFor(model => model.PersonalLoad.EducPlan.LabWorkCount)
+</dd>
+<dd class="col-sm-10">
+    Максимальное кол-во часов: @Html.DisplayFor(model => model.MaxHour)
+</dd>
 <form method="post">
 <div class="row">
     <div class="col">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="PersonalLoad.PersonalLoadId"/>
             <input type="hidden" asp-for="PersonalLoad.EducPlanId"/>
-            <input type="hidden" asp-for="PersonalLoad.EducPlan" />
+            <input type="hidden" asp-for="PersonalLoad.EducPlan"/>
             <input type="hidden" asp-for="MaxHour" />
 
             <div class="form-group">
                 <label asp-for="PersonalLoad.Groups" class="control-label"></label>
-                <input asp-for="PersonalLoad.Groups" class="form-control" />
+                <input asp-for="PersonalLoad.Groups" placeholder="Введите номера групп" class="form-control" />
                 <span asp-validation-for="PersonalLoad.Groups" class="text-danger"></span>
             </div>
             <!-- Возможно не нужно
@@ -42,25 +80,24 @@
                 <div class="form-group">
                 <input type="hidden" asp-for="Loads[i].LoadId" />
                 <label asp-for="Loads[i].Teacher">Преподаватель</label>
-                <select asp-for="Loads[i].TeacherId" asp-items="@(ViewData["Teachers"] as SelectList)" class="form-select">
-                    <option value=""></option>
+                    <select asp-for="Loads[i].TeacherId" asp-items="@(ViewData["Teachers"] as SelectList)" class="form-select">
+                    <option value="">-</option>
                 </select>
                 <span asp-validation-for="Loads[i].TeacherId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Loads[i].HoursCount" class="control-label"></label>
-                    <input asp-for="Loads[i].HoursCount" class="form-control" step="any" />
+                    <input asp-for="Loads[i].HoursCount" placeholder="Введите кол-во часов" class="form-control" step="any" />
                 <span asp-validation-for="Loads[i].HoursCount" class="text-danger"></span>
             </div>
             </div>
         }
-
-        
 </div>
     <div class="mt-2">
         <button type="button" class="btn btn-primary" id="addLoadButton">Добавить преподавателя</button>
     </div>
 <div class="form-group mt-2">
+
     <input type="submit" value="Сохранить" class="btn btn-primary" />
     <a asp-page="./Index">Вернуться к таблице</a>
 </div>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -15,13 +16,13 @@ public partial class PersonalLoad
 
     //Возможны правки
 
-    public int EducPlanId { get; set; }
+
 
     //public int? TeacherId { get; set; }
 
     //public Teacher Teacher { get; set; } = null!;
-
-    public virtual EducPlan EducPlan { get; set; } = null!;
+    public int EducPlanId { get; set; }
+    public virtual EducPlan? EducPlan { get; set; }
 
     public virtual ICollection<Load> Loads { get; set; } = new List<Load>();
 }
