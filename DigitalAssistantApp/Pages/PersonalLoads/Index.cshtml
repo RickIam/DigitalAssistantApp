@@ -44,9 +44,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.PersonalLoad[0].EducPlan.LabWorkCount)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PersonalLoad[0].TeachersInfo)
-            </th>
             @if(Model.PersonalLoad.FirstOrDefault()!=null)
             {
                 foreach (var Load in Model.PersonalLoad.FirstOrDefault().Loads)
@@ -97,9 +94,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EducPlan.LabWorkCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TeachersInfo)
             </td>
             @foreach (var load in item.Loads)
             {

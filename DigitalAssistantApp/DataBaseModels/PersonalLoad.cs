@@ -8,6 +8,7 @@ public partial class PersonalLoad
 {
     public int PersonalLoadId { get; set; }
     [Display(Name = "№ Группы")]
+    [RegularExpression(@"^[0-9\s]+$", ErrorMessage = "Только цифры и пробелы")]
     public string? Groups { get; set; }
     [Display(Name = "Информация о преподавателе")]
     public string? TeachersInfo { get; set; }
@@ -20,7 +21,7 @@ public partial class PersonalLoad
 
     //public Teacher Teacher { get; set; } = null!;
 
-    public virtual EducPlan? EducPlan { get; set; }
+    public virtual EducPlan EducPlan { get; set; } = null!;
 
     public virtual ICollection<Load> Loads { get; set; } = new List<Load>();
 }
