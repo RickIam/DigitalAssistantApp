@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using DigitalAssistantApp;
 using DigitalAssistantApp.DataBaseModels;
 using NuGet.Packaging.Signing;
+using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
+using System.ComponentModel.DataAnnotations;
 
 namespace DigitalAssistantApp.Pages.PersonalLoads
 {
@@ -20,13 +22,12 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
         {
             _context = context;
         }
-
         [BindProperty]
         public PersonalLoad PersonalLoad { get; set; } = default!;
         [BindProperty]
         public List<Load> Loads { get; set; }
-        //public SelectList? TeachersNames { get; set; }
-
+        [BindProperty]
+        public float MaxHour { get; set; }
 
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -35,65 +36,80 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
             {
                 return NotFound();
             }
-            var personalload =  await _context.PersonalLoads.FirstOrDefaultAsync(m => m.PersonalLoadId == id);
+            var personalload = await _context.PersonalLoads
+                .Include(t => t.Loads)
+                .Include(p => p.EducPlan)
+                .ThenInclude(b => b.Subject)
+                .Include(c => c.EducPlan)
+                .ThenInclude(d => d.Stream)
+                .FirstOrDefaultAsync(m => m.PersonalLoadId == id);
             if (personalload == null)
             {
                 return NotFound();
             }
-
-            List<Teacher> teachers = _context.Teachers.ToList();
-            ViewData["Teachers"] = new SelectList(teachers, "TeacherId", "FullName");
-
-            var loads = await _context.Loads.Where(l => l.PersonalLoadId == personalload.PersonalLoadId).ToListAsync();
-            if (loads.Count==0)
+            var loads = personalload.Loads;
+            Loads = loads.ToList();
+            if(Loads.Count==0)
             {
-                Loads = new List<Load>
-                {
-                    new Load(), // Первая форма
-                };
                 Loads.Add(new Load());
-                Loads.Add(new Load());
-            }
-            else
-            {
-                Loads = loads;
-                while(Loads.Count <3) 
-                {
-                    Loads.Add(new Load());
-                }
             }
             PersonalLoad = personalload;
+            MaxHour = (float)PersonalLoad.EducPlan.H;
+            List<Teacher> teachers = _context.Teachers.ToList();
+            ViewData["Teachers"] = new SelectList(teachers, "TeacherId", "FullName");
             return Page();
         }
 
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnGetDeleteLoadAsync(int? id, int? load_id)
+        {
+            if (id == null || load_id == null)
+            {
+                return NotFound();
+            }
+
+            var load = await _context.Loads.FindAsync(load_id);
+
+            if (load != null)
+            {
+                _context.Remove(load);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToPage(new { id });
+        }
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (!ModelState.IsValid)
             {
-                return Page();
+                return RedirectToPage(new { id });
             }
-
             _context.Attach(PersonalLoad).State = EntityState.Modified;
-            foreach (Load load in Loads)
+            for (int i =0; i < Loads.Count; i++)
             {
-                load.PersonalLoadId = PersonalLoad.PersonalLoadId;
-                if (load.LoadId > 0)
+                if (Loads[i].HoursCount > MaxHour)
                 {
-                    if (load.TeacherId == null)
+                    List<Teacher> teachers = _context.Teachers.ToList();
+                    ViewData["Teachers"] = new SelectList(teachers, "TeacherId", "FullName");
+                    ModelState.AddModelError("Loads["+i+"].HoursCount", $"Значение не может быть больше {MaxHour} часов.");
+                    return Page();
+                }
+                Loads[i].PersonalLoadId = PersonalLoad.PersonalLoadId;
+                if (Loads[i].LoadId > 0)
+                {
+                    if (Loads[i].TeacherId == null)
                     {
-                        _context.Remove(load);
+                        _context.Remove(Loads[i]);
                     }
                     else
                     {
-                        _context.Attach(load).State = EntityState.Modified;
+                        _context.Attach(Loads[i]).State = EntityState.Modified;
                     }
                 }
                 else
                 {
-                    if (load.TeacherId != null && load.HoursCount != null)
+                    if (Loads[i].TeacherId != null && Loads[i].HoursCount != null)
                     {
-                        _context.Loads.Add(load);
+                        _context.Loads.Add(Loads[i]);
                     }
                 }
             }
@@ -112,7 +128,6 @@ namespace DigitalAssistantApp.Pages.PersonalLoads
                     throw;
                 }
             }
-
             return RedirectToPage("./Index");
         }
 

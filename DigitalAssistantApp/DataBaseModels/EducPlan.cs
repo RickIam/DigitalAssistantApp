@@ -6,6 +6,7 @@ namespace DigitalAssistantApp.DataBaseModels;
 
 public partial class EducPlan
 {
+    [Key]
     public int EducPlanId { get; set; }
 
     public int SubjectId { get; set; }

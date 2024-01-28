@@ -15,22 +15,24 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Teacher.Firstname" class="control-label"></label>
-                <input asp-for="Teacher.Firstname" class="form-control" />
+                <input asp-for="Teacher.Firstname" placeholder="Введите имя" class="form-control" />
                 <span asp-validation-for="Teacher.Firstname" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Teacher.Lastname" class="control-label"></label>
-                <input asp-for="Teacher.Lastname" class="form-control" />
+                <input asp-for="Teacher.Lastname" placeholder="Введите фамилию" class="form-control" />
                 <span asp-validation-for="Teacher.Lastname" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Teacher.PatronymicName" class="control-label"></label>
-                <input asp-for="Teacher.PatronymicName" class="form-control" />
+                <input asp-for="Teacher.PatronymicName" placeholder="Введите отчество" class="form-control" />
                 <span asp-validation-for="Teacher.PatronymicName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Teacher.Department" class="control-label"></label>
-                <input asp-for="Teacher.Department" class="form-control" />
+                <select class="form-control" asp-for="Teacher.Department" asp-items="Model.TeachersDepatrments">
+                    <option value="">-</option>
+                </select>
                 <span asp-validation-for="Teacher.Department" class="text-danger"></span>
             </div>
             <div class="form-group">

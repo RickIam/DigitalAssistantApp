@@ -1,2 +1,11 @@
 ﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    // Переопределение метода number валидатора
+    $.validator.methods.number = function (value, element) {
+        // Ваша собственная логика преобразования, если нужно
+        // Например, заменить запятую на точку перед parseFloat
+        value = value.replace(',', '.');
+        return this.optional(element) || !isNaN(parseFloat(value));
+    };
+</script>

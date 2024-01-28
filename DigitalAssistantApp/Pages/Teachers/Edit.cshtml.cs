@@ -13,6 +13,7 @@ namespace DigitalAssistantApp.Pages.Teachers
     public class EditModel : PageModel
     {
         private readonly DigitalAssistantApp.DadContext _context;
+        public SelectList? TeachersDepatrments { get; set; }
 
         public EditModel(DigitalAssistantApp.DadContext context)
         {
@@ -34,12 +35,14 @@ namespace DigitalAssistantApp.Pages.Teachers
             {
                 return NotFound();
             }
+            IQueryable<string> DeptQuery = (from m in _context.Faculties
+                                            orderby m.FacultyName
+                                            select m.FacultyName).Distinct();
+            TeachersDepatrments = new SelectList(await DeptQuery.ToListAsync());
             Teacher = teacher;
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)

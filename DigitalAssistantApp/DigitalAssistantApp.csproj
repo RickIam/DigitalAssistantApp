@@ -15,10 +15,12 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\ex-list" />
+    <Content Remove="wwwroot\lib\jquery-validation-unobtrusive\jquery-validation-1.20.0.zip" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="7.0.3" />
+    <PackageReference Include="jQuery.Validation" Version="1.19.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="7.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.13">
